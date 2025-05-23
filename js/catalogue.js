@@ -1,11 +1,12 @@
 export default async function showCatalogue(container) {
   container.innerHTML = `
     <h2 class="mb-4">Product Catalogue</h2>
-    <div class="row" id="product-list">Loading...</div>
+    <div class="row" id="product-list">Loading products...</div>
   `;
 
   try {
-    const response = await fetch('/api/products');
+    // Use full URL to avoid CORS problems when using "Go Live"
+    const response = await fetch('http://127.0.0.1:5000/api/products');
     if (!response.ok) throw new Error(await response.text());
 
     const products = await response.json();
@@ -17,13 +18,12 @@ export default async function showCatalogue(container) {
       card.className = 'col-md-4 mb-4';
       card.innerHTML = `
         <div class="card h-100 shadow-sm">
-          <div class="card-body">
+          <div class="card-body d-flex flex-column">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">Price: $${product.price.toFixed(2)}</p>
-            <label>Quantity:
-              <input type="number" min="1" value="1" id="qty-${product.id}" class="form-control mb-2">
-            </label>
-            <button class="btn btn-primary w-100" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">
+            <label for="qty-${product.id}">Quantity:</label>
+            <input type="number" min="1" value="1" id="qty-${product.id}" class="form-control mb-2">
+            <button class="btn btn-primary mt-auto w-100" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">
               Add to Cart
             </button>
           </div>
@@ -32,6 +32,7 @@ export default async function showCatalogue(container) {
       productList.appendChild(card);
     });
 
+    // Handle add to cart buttons
     document.querySelectorAll('button[data-id]').forEach(button => {
       button.addEventListener('click', () => {
         const id = button.dataset.id;
@@ -55,7 +56,7 @@ export default async function showCatalogue(container) {
 
   } catch (err) {
     document.getElementById('product-list').innerHTML = `
-      <div class="alert alert-danger">Error loading products: ${err.message}</div>
+      <div class="alert alert-danger"> Error loading products: ${err.message}</div>
     `;
   }
 }
