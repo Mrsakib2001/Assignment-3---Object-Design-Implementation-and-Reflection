@@ -1,6 +1,6 @@
 # AWE Electronics – Online Store (Assignment 3)
 
-This project is a front-end implementation of an online electronics store for AWE Electronics, developed for SWE30003: Software Architectures and Design (Assignment 3, 2025). It demonstrates how an object-oriented design can be translated into a working web application using core web technologies.
+This project is a front-end implementation of an online electronics store for AWE Electronics, developed for SWE30003: Software Architectures and Design (Assignment 3). It demonstrates how an object-oriented design can be translated into a working web application using core web technologies.
 
 ## Purpose
 
